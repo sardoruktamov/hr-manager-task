@@ -107,6 +107,66 @@ public class EmployeeService {
         employeeRepository.deleteById(id);
     }
 
+    // -------- Filter va search qismlari --------
+
+    // Ism/familiya bo'yicha qidirish
+    public List<EmployeeResponseDTO> searchAllByName(String name) {
+        List<EmployeeEntity> entities = employeeRepository.searchAllByName(name);
+
+        List<EmployeeResponseDTO> result = new ArrayList<>();
+        for (EmployeeEntity entity : entities) {
+            EmployeeResponseDTO dto = employeeMapper.toResponseDTO(entity);
+            result.add(dto);
+        }
+
+        return result;
+    }
+
+    // Lavozim bo'yicha filter
+    public List<EmployeeResponseDTO> filterByPosition(Position position) {
+        List<EmployeeEntity> entities = employeeRepository.findByPosition(position.name());
+
+        List<EmployeeResponseDTO> result = new ArrayList<>();
+        for (EmployeeEntity entity : entities) {
+            EmployeeResponseDTO dto = employeeMapper.toResponseDTO(entity);
+            result.add(dto);
+        }
+
+        return result;
+    }
+
+    // Bo'lim bo'yicha filter
+    public List<EmployeeResponseDTO> filterByDepartment(Department department) {
+        List<EmployeeEntity> entities = employeeRepository.findByDepartment(department.name());
+        List<EmployeeResponseDTO> result = new ArrayList<>();
+        for (EmployeeEntity entity : entities) {
+            EmployeeResponseDTO dto = employeeMapper.toResponseDTO(entity);
+            result.add(dto);
+        }
+
+        return result;
+    }
+
+
+    // Active bo'yicha filter
+    public List<EmployeeResponseDTO> filterByActive(boolean active) {
+        Optional<EmployeeEntity> result = employeeRepository.findByActive(active);
+        return toResponseList(result);
+    }
+
+
+    // Optional<Entity> -> List<ResponseDTO>
+    private List<EmployeeResponseDTO> toResponseList(Optional<EmployeeEntity> optionalEntity) {
+        List<EmployeeResponseDTO> result = new ArrayList<>();
+
+        if (optionalEntity.isPresent()) {
+            EmployeeEntity entity = optionalEntity.get();
+            EmployeeResponseDTO dto = employeeMapper.toResponseDTO(entity);
+            result.add(dto);
+        }
+
+        return result;
+    }
 
 
 }

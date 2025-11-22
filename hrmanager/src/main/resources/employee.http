@@ -3,12 +3,12 @@ POST localhost:8080/api/v1/employees
 Content-Type: application/json
 
 {
-  "firstName": "Alish",
-  "lastName": "Alisherov",
-  "phone": "998910000002",
+  "firstName": "Toshmat",
+  "lastName": "Ilxomov",
+  "phone": "998910000003",
   "email": "123456",
-  "position": "RAXBAR",
-  "department": "XATLAR_BILAN_ISHLASH"
+  "position": "BOSHMUTAXASSIS",
+  "department": "DASTURCHILAR"
 
 }
 
@@ -22,7 +22,7 @@ Content-Type: application/json
 
 {
   "firstName": "Olim",
-  "lastName": "Olimov",
+  "lastName": "Toshmatov",
   "phone": "998910000003",
   "email": "123456",
   "position": "BOSHMUTAXASSIS",
@@ -31,6 +31,18 @@ Content-Type: application/json
 
 }
 
-### Employee Get all
+### Employee Delete By ID
 DELETE localhost:8080/api/v1/employees/3
+Content-Type: application/json
+
+### Serch by name/surname
+GET localhost:8080/api/v1/employees/search-all?name=to
+Content-Type: application/json
+
+### Filter by position
+GET localhost:8080/api/v1/employees/filter-by-position?position=RAXBAR
+Content-Type: application/json
+
+### Filter by department
+GET localhost:8080/api/v1/employees/filter-by-department?department=RAHBARIYAT
 Content-Type: application/json

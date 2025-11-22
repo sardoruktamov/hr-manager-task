@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import uz.hrmanager.hrmanager.dto.EmployeeCreateDTO;
 import uz.hrmanager.hrmanager.dto.EmployeeResponseDTO;
 import uz.hrmanager.hrmanager.dto.EmployeeUpdateDTO;
+import uz.hrmanager.hrmanager.enums.Department;
+import uz.hrmanager.hrmanager.enums.Position;
 import uz.hrmanager.hrmanager.service.EmployeeService;
 
 import java.util.List;
@@ -55,6 +57,38 @@ public class EmployeeController {
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         employeeService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // Ism yoki familiya bo‘yicha qidirish
+    @GetMapping("/search-all")
+    public ResponseEntity<List<EmployeeResponseDTO>> searchByName(@RequestParam("name") String name) {
+        List<EmployeeResponseDTO> result = employeeService.searchAllByName(name);
+
+        if (result.isEmpty()) {
+            return ResponseEntity.ok(result);
+        }
+
+        return ResponseEntity.ok(result);
+    }
+
+    // lavozim bo‘yicha filterlash
+    @GetMapping("/filter-by-position")
+    public ResponseEntity<List<EmployeeResponseDTO>> filterByPosition(@RequestParam("position") Position position) {
+        List<EmployeeResponseDTO> result = employeeService.filterByPosition(position);
+        if (result.isEmpty()) {
+            return ResponseEntity.ok(result);
+        }
+        return ResponseEntity.ok(result);
+    }
+
+    // bo'lim bo‘yicha filterlash
+    @GetMapping("/filter-by-department")
+    public ResponseEntity<List<EmployeeResponseDTO>> filterByPosition(@RequestParam("department") Department department) {
+        List<EmployeeResponseDTO> result = employeeService.filterByDepartment(department);
+        if (result.isEmpty()) {
+            return ResponseEntity.ok(result);
+        }
+        return ResponseEntity.ok(result);
     }
 }
 

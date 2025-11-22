@@ -19,45 +19,6 @@ public interface EmployeeRepository extends CrudRepository<EmployeeEntity, Integ
     @Query(value = "SELECT * FROM employee e WHERE e.active = true", nativeQuery = true)
     List<EmployeeEntity> findAllByActiveTrue();
 
-    Optional<EmployeeEntity> findByIdAndActiveTrue(Integer id);
-    // Ism, familya bo'yicha qidirish
-    @Query(
-            value = """
-                    SELECT * FROM employees e
-                    WHERE LOWER(e.first_name) LIKE LOWER(CONCAT('%', :word, '%'))
-                       OR LOWER(e.last_name)  LIKE LOWER(CONCAT('%', :word, '%'))
-                    """, nativeQuery = true
-    )
-    Optional<EmployeeEntity> searchByName(@Param("word") String word);
-
-
-    // Lavozim bo'yicha filter
-    @Query(value = "SELECT * FROM employees e WHERE e.position = :position", nativeQuery = true)
-    Optional<EmployeeEntity> findByPosition(@Param("position") String position);
-
-
-    // Bo'lim bo'yicha filter
-    @Query(value = "SELECT * FROM employees e WHERE e.department = :department",nativeQuery = true)
-    Optional<EmployeeEntity> findByDepartment(@Param("department") String department);
-
-
-    // Lavozim + bo'lim birgalikdagi filter
-    @Query(
-            value = """
-                    SELECT * FROM employees e
-                    WHERE (:position IS NULL OR e.position = :position)
-                      AND (:department IS NULL OR e.department = :department)
-                    """,nativeQuery = true
-    )
-    Optional<EmployeeEntity> filterByPositionAndDepartment(
-            @Param("position") String position,
-            @Param("department") String department);
-
-
-    // Active bo'yicha filter
-    @Query(value = "SELECT * FROM employees e WHERE e.active = :active",nativeQuery = true)
-    Optional<EmployeeEntity> findByActive(@Param("active") boolean active);
-
     Optional<EmployeeEntity> findByPhoneAndIdNot(String phone, Integer id);
 
     // checking phone
@@ -65,6 +26,33 @@ public interface EmployeeRepository extends CrudRepository<EmployeeEntity, Integ
 
     // checking Position (RAXBAR)
     boolean existsByPositionAndActiveTrue(Position position);
+    Optional<EmployeeEntity> findByIdAndActiveTrue(Integer id);
+    // Ism yoki familya bo'yicha qidirish
+    @Query(
+            value = """
+                    SELECT * FROM employee e
+                    WHERE LOWER(e.first_name) LIKE LOWER(CONCAT('%', :word, '%'))
+                       OR LOWER(e.last_name)  LIKE LOWER(CONCAT('%', :word, '%'))
+                    """, nativeQuery = true
+    )
+    List<EmployeeEntity> searchAllByName(@Param("word") String word);
+
+
+    // Lavozim bo'yicha filter
+    @Query(value = "SELECT * FROM employee e WHERE e.position = :position", nativeQuery = true)
+    List<EmployeeEntity> findByPosition(@Param("position") String position);
+
+
+    // Bo'lim bo'yicha filter
+    @Query(value = "SELECT * FROM employee e WHERE e.department = :department",nativeQuery = true)
+    List<EmployeeEntity> findByDepartment(@Param("department") String department);
+
+
+    // Active bo'yicha filter
+    @Query(value = "SELECT * FROM employee e WHERE e.active = :active",nativeQuery = true)
+    Optional<EmployeeEntity> findByActive(@Param("active") boolean active);
+
+
 
 }
 
