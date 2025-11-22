@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.*;
 import uz.hrmanager.hrmanager.dto.EmployeeCreateDTO;
 import uz.hrmanager.hrmanager.dto.EmployeeResponseDTO;
 import uz.hrmanager.hrmanager.dto.EmployeeUpdateDTO;
+import uz.hrmanager.hrmanager.entity.LeaveBalanceEntity;
 import uz.hrmanager.hrmanager.enums.Department;
 import uz.hrmanager.hrmanager.enums.Position;
+import uz.hrmanager.hrmanager.repository.LeaveBalanceRepository;
 import uz.hrmanager.hrmanager.service.EmployeeService;
 
 import java.util.List;
@@ -21,9 +23,8 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-//    public EmployeeController(EmployeeService employeeService) {
-//        this.employeeService = employeeService;
-//    }
+    @Autowired
+    private LeaveBalanceRepository leaveBalanceRepository;
 
     // CREATE
     @PostMapping
@@ -90,5 +91,7 @@ public class EmployeeController {
         }
         return ResponseEntity.ok(result);
     }
+
+
 }
 

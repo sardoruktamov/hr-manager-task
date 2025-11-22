@@ -16,12 +16,18 @@ public class LeaveRequestEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
+    private String requestContent;
 
     // Kim tomonidan yuborilgan
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private EmployeeEntity employee;
+
+    // Kim tomonidan tasdiqlanishi
+    @ManyToOne
+    @JoinColumn(name = "manager_id", nullable = false)
+    private EmployeeEntity manager;
 
     @Enumerated(EnumType.STRING)
     private LeaveType leaveType;

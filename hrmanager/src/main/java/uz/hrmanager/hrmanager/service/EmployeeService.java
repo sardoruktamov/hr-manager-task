@@ -7,10 +7,12 @@ import uz.hrmanager.hrmanager.dto.EmployeeCreateDTO;
 import uz.hrmanager.hrmanager.dto.EmployeeResponseDTO;
 import uz.hrmanager.hrmanager.dto.EmployeeUpdateDTO;
 import uz.hrmanager.hrmanager.entity.EmployeeEntity;
+import uz.hrmanager.hrmanager.entity.LeaveBalanceEntity;
 import uz.hrmanager.hrmanager.enums.Department;
 import uz.hrmanager.hrmanager.enums.Position;
 import uz.hrmanager.hrmanager.exceptions.AppBadException;
 import uz.hrmanager.hrmanager.repository.EmployeeRepository;
+import uz.hrmanager.hrmanager.repository.LeaveBalanceRepository;
 import uz.hrmanager.hrmanager.service.mapper.EmployeeMapper;
 
 import java.time.LocalDate;
@@ -29,6 +31,10 @@ public class EmployeeService {
 
     @Autowired
     private EmployeeMapper employeeMapper;
+
+    @Autowired
+    private LeaveBalanceService leaveBalanceService;
+
 
     // CREATE
     public EmployeeResponseDTO create(EmployeeCreateDTO dto) {
@@ -58,6 +64,9 @@ public class EmployeeService {
         entity.setActive(true);
 
         EmployeeEntity saved = employeeRepository.save(entity);
+        // TA'TIL BALANSINI AVTOMATIK YARATISH
+        leaveBalanceService.initializeLeaveBalance(saved);
+
         return employeeMapper.toResponseDTO(saved);
     }
 
@@ -155,6 +164,7 @@ public class EmployeeService {
     }
 
 
+
     // Optional<Entity> -> List<ResponseDTO>
     private List<EmployeeResponseDTO> toResponseList(Optional<EmployeeEntity> optionalEntity) {
         List<EmployeeResponseDTO> result = new ArrayList<>();
@@ -167,6 +177,7 @@ public class EmployeeService {
 
         return result;
     }
+
 
 
 }

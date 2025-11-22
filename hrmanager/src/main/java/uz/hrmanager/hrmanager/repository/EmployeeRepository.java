@@ -52,7 +52,7 @@ public interface EmployeeRepository extends CrudRepository<EmployeeEntity, Integ
     @Query(value = "SELECT * FROM employee e WHERE e.active = :active",nativeQuery = true)
     Optional<EmployeeEntity> findByActive(@Param("active") boolean active);
 
-
-
+    // arizani Raxbar tomonidan tasdiqlashi uchun topish
+     Optional<EmployeeEntity> findByPositionAndActiveTrue(Position raxbar);
 }
 
