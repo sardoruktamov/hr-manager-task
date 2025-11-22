@@ -1,0 +1,36 @@
+### Create employee
+POST localhost:8080/api/v1/employees
+Content-Type: application/json
+
+{
+  "firstName": "Alish",
+  "lastName": "Alisherov",
+  "phone": "998910000002",
+  "email": "123456",
+  "position": "RAXBAR",
+  "department": "XATLAR_BILAN_ISHLASH"
+
+}
+
+### Employee Get all
+GET localhost:8080/api/v1/employees
+Content-Type: application/json
+
+### UPDATE employee
+PUT localhost:8080/api/v1/employees/3
+Content-Type: application/json
+
+{
+  "firstName": "Olim",
+  "lastName": "Olimov",
+  "phone": "998910000003",
+  "email": "123456",
+  "position": "BOSHMUTAXASSIS",
+  "department": "DASTURCHILAR",
+  "active": "true"
+
+}
+
+### Employee Get all
+DELETE localhost:8080/api/v1/employees/3
+Content-Type: application/json
