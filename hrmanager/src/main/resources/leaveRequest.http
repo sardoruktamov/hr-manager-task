@@ -1,10 +1,10 @@
 ### Create Leave request
 POST localhost:8080/api/v1/leaves
 Content-Type: application/json
-X-Auth-User-Id: 9
+X-Auth-User-Id: 1
 
 {
-  "requestContent": "men ertaga 23.11.2025 kundan tatilga chiqmoqchiman",
+  "requestContent": "menga 2025 yil 23-noyabr kunidan navbatdagi mehnat ta'tilga chiqishimga ruxsat berishingizni so'rayman",
   "leaveType": "YILLIK",
   "startDate": "2025-11-23",
   "endDate": "2025-11-30"

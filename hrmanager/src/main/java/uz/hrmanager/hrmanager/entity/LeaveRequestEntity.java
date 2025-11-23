@@ -31,10 +31,11 @@ public class LeaveRequestEntity {
 
     @Enumerated(EnumType.STRING)
     private LeaveType leaveType;
-
+    @Column(name = "start_date")
     private LocalDate startDate;
+    @Column(name = "end_date")
     private LocalDate endDate;
-
+    @Column(name = "total_days")
     private Integer totalDays; // tatilda bolgan kun
 
     @Enumerated(EnumType.STRING)

@@ -21,6 +21,8 @@ public class EmployeeMapper {
         entity.setEmail(dto.getEmail());
         entity.setPosition(dto.getPosition());
         entity.setDepartment(dto.getDepartment());
+        entity.setHireDate(LocalDate.now());
+        entity.setActive(true);
         return entity;
     }
 

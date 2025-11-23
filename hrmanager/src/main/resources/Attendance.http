@@ -1,0 +1,32 @@
+### Create attendance (xatoliklar kuzatilganda xodim tabelini qo'lda to'g'rilash uchun)
+POST http://localhost:8080/api/v1/attendance/set-by-hr/1
+Content-Type: application/json
+
+{
+  "workDate": "2025-11-25",
+  "inTime": "08:20:00",
+  "outTime": "18:05:00"
+}
+
+### ishga kelish vaqtini belgilash
+POST http://localhost:8080/api/v1/attendance/check-in
+Content-Type: application/json
+X-Auth-User-Id: 1
+
+### ishdan ketish vaqtini belgilash
+PUT http://localhost:8080/api/v1/attendance/check-out
+Content-Type: application/json
+X-Auth-User-Id: 1
+
+
+### Kechikishlar va Kelmaganlar ro'yxatini olish
+GET http://localhost:8080/api/v1/attendance/report/lateness-absence?startdate=2025-11-01&enddate=2025-11-30
+Accept: application/json
+
+### ikkita sana oralig'idagi ishga kelgan xodimlar hisobotini olish
+GET http://localhost:8080/api/v1/attendance/report/between-date?startdate=2025-11-01&enddate=2025-11-30
+Accept: application/json
+
+### Bitta xodim bo'yicha haftalik hisobot
+GET http://localhost:8080/api/v1/attendance/employee-report?employeeId=1&start=2025-11-01&end=2025-11-07
+Accept: application/json

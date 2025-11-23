@@ -53,17 +53,9 @@ public class EmployeeService {
                 throw new AppBadException("Tizimda allaqachon faol 'RAXBAR' mavjud. Faqat bitta RAXBAR bo'lishi mumkin.");
             }
         }
-        EmployeeEntity entity = new EmployeeEntity();
-        entity.setFirstName(dto.getFirstName());
-        entity.setLastName(dto.getLastName());
-        entity.setPhone(dto.getPhone());
-        entity.setEmail(dto.getEmail());
-        entity.setPosition(dto.getPosition());
-        entity.setDepartment(dto.getDepartment());
-        entity.setHireDate(LocalDate.now());
-        entity.setActive(true);
-
+        EmployeeEntity entity = employeeMapper.toEntity(dto);
         EmployeeEntity saved = employeeRepository.save(entity);
+
         // TA'TIL BALANSINI AVTOMATIK YARATISH
         leaveBalanceService.initializeLeaveBalance(saved);
 
@@ -101,6 +93,7 @@ public class EmployeeService {
             Optional<EmployeeEntity> byPhone = employeeRepository.findByPhoneAndIdNot(dto.getPhone(), id);
 
             if (byPhone.isPresent()) {
+                log.info("Boshqa xodim topildiiiiiii----IDsi-- {}", optional.get().getId());
                 // Agar boshqa xodim topilsa
                 throw new AppBadException("Kiritilgan telefon raqami boshqa faol xodim tomonidan allaqachon ishlatilmoqda.");
             }
