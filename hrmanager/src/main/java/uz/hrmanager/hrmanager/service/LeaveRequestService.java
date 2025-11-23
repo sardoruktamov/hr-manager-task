@@ -8,7 +8,6 @@ import uz.hrmanager.hrmanager.entity.EmployeeEntity;
 import uz.hrmanager.hrmanager.entity.LeaveBalanceEntity;
 import uz.hrmanager.hrmanager.entity.LeaveRequestEntity;
 import uz.hrmanager.hrmanager.enums.LeaveStatus;
-import uz.hrmanager.hrmanager.enums.LeaveType;
 import uz.hrmanager.hrmanager.enums.Position;
 import uz.hrmanager.hrmanager.exceptions.AppBadException;
 import uz.hrmanager.hrmanager.repository.EmployeeRepository;
@@ -16,7 +15,6 @@ import uz.hrmanager.hrmanager.repository.LeaveBalanceRepository;
 import uz.hrmanager.hrmanager.repository.LeaveRequestRepository;
 import uz.hrmanager.hrmanager.dto.LeaveRequestCreateDTO;
 import uz.hrmanager.hrmanager.dto.LeaveRequestResponseDTO;
-import uz.hrmanager.hrmanager.service.mapper.LeaveRequestMapper;
 import uz.hrmanager.hrmanager.service.mapper.LeaveRequestMapper;
 
 import java.time.LocalDate;
@@ -41,13 +39,13 @@ public class LeaveRequestService {
     private LeaveBalanceRepository leaveBalanceRepository;
 
 
-    // --- 1. ARIZA YUBORISH (CREATE) ---
+    // ARIZA YUBORISH (CREATE)
     public LeaveRequestResponseDTO create(LeaveRequestCreateDTO dto, Integer employeeId) {
         // Arizani yuborayotgan xodimni topish
         EmployeeEntity employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new AppBadException("Xodim topilmadi."));
 
-        // Raxbarni topish (Bu yerda faqat RAXBAR tasdiqlashi kerak)
+        // Raxbarni topish (arizani faqat RAXBAR tasdiqlashi kerak)
         EmployeeEntity raxbar = employeeRepository.findByPositionAndActiveTrue(Position.RAXBAR)
                 .orElseThrow(() -> new AppBadException("Tizimda RAXBAR topilmadi."));
 
@@ -63,18 +61,18 @@ public class LeaveRequestService {
         LeaveRequestEntity entity = new LeaveRequestEntity();
         entity.setEmployee(employee);
         entity.setRequestContent(dto.getRequestContent());
-        entity.setManager(raxbar); // RAXBAR ga avtomatik yo'naltiramiz
+        entity.setManager(raxbar); // RAXBAR ga yo'naltiramiz
         entity.setLeaveType(dto.getLeaveType());
         entity.setStartDate(dto.getStartDate());
         entity.setEndDate(dto.getEndDate());
         entity.setTotalDays(totalDays);
-        entity.setStatus(LeaveStatus.JARAYONDA); // Dastlabki holat
+        entity.setStatus(LeaveStatus.JARAYONDA);
 
         LeaveRequestEntity saved = leaveRequestRepository.save(entity);
         return leaveRequestMapper.toResponseDTO(saved);
     }
 
-    // --- tatil kunlarni hisoblash ---
+    // tatil kunlarni hisoblash
     private Integer calculateTotalDays(LocalDate start, LocalDate end) {
         // Ta'til kunlarini hisoblash (Start va End kunlari ham kiradi)
         if (start.isAfter(end)) {
@@ -83,7 +81,7 @@ public class LeaveRequestService {
         // kunlar soni + 1 (agar bir kun bo'lsa, ChronoUnit.DAYS 0 qaytaradi shuning uchun 1 qo'shamiz)
         return (int) ChronoUnit.DAYS.between(start, end) + 1;
     }
-    // --- 2. ARIZANI TASDIQLASH (APPROVE) ---
+    // ARIZANI TASDIQLASH
     public LeaveRequestResponseDTO approve(Integer requestId, Integer managerId) {
         // Tasdiqlovchi Raxbarmi yoki boshqaligini tekshirish
         EmployeeEntity manager = employeeRepository.findById(managerId)
@@ -117,7 +115,7 @@ public class LeaveRequestService {
         return leaveRequestMapper.toResponseDTO(saved);
     }
 
-    // --- 3. ARIZANI RAD ETISH (REJECT) ---
+    //  ARIZANI RAD ETISH
     public LeaveRequestResponseDTO reject(Integer requestId, Integer managerId, String comment) {
         // Tasdiqlovchi Manager va RAXBARlikni tekshirish (oldingi usuldagidek)
         EmployeeEntity manager = employeeRepository.findById(managerId)
@@ -143,7 +141,7 @@ public class LeaveRequestService {
         return leaveRequestMapper.toResponseDTO(saved);
     }
 
-    // --- 4. RAXBAR UCHUN ARIZALAR RO'YXATINI KO'RISH ---
+    // RAXBAR UCHUN ARIZALAR RO'YXATINI KO'RISH
     public List<LeaveRequestResponseDTO> getPendingRequestsForManager(Integer managerId) {
         // Manager RAXBAR ekanligini tekshirish lozim, lekin hozir Repository usulidan foydalanamiz
         List<LeaveRequestEntity> entities = leaveRequestRepository.findAllByManagerIdAndStatus(
@@ -151,12 +149,19 @@ public class LeaveRequestService {
                 LeaveStatus.JARAYONDA
         );
         return entities.stream()
-                .map(leaveRequestMapper::toResponseDTO)
+                .map(entitie -> leaveRequestMapper.toResponseDTO(entitie))
                 .collect(Collectors.toList());
     }
 
-    // --- Xodim uchun balansni ko'rish---
+    //  Xodim uchun balansni ko'rish
     public List<LeaveBalanceEntity> getEmployeeBalances(Integer employeeId) {
         return leaveBalanceRepository.findAllByEmployeeId(employeeId);
+    }
+
+    public List<LeaveRequestResponseDTO> getEmployeeRequests(Integer employeeId) {
+        List<LeaveRequestEntity> entities = leaveRequestRepository.findAllByEmployeeId(employeeId);
+        return entities.stream()
+                .map(leaveRequestEntity -> leaveRequestMapper.toResponseDTO(leaveRequestEntity))
+                .collect(Collectors.toList());
     }
 }

@@ -3,9 +3,9 @@ POST localhost:8080/api/v1/employees
 Content-Type: application/json
 
 {
-  "firstName": "Olimjonov",
-  "lastName": "Olim",
-  "phone": "998910000003",
+  "firstName": "Salomov",
+  "lastName": "Anvar",
+  "phone": "998910000503",
   "email": "123456",
   "position": "BOSHMUTAXASSIS",
   "department": "DASTURCHILAR"
@@ -17,18 +17,16 @@ GET localhost:8080/api/v1/employees
 Content-Type: application/json
 
 ### UPDATE employee
-PUT localhost:8080/api/v1/employees/3
+PUT localhost:8080/api/v1/employees/4
 Content-Type: application/json
 
 {
-  "firstName": "Olim",
-  "lastName": "Toshmatov",
-  "phone": "998910000003",
+  "firstName": "Salomov",
+  "lastName": "Anvar",
+  "phone": "998911111111",
   "email": "123456",
-  "position": "BOSHMUTAXASSIS",
-  "department": "DASTURCHILAR",
-  "active": "true"
-
+  "position": "KATTAMUTAXASSIS",
+  "department": "MARKETING"
 }
 
 ### Employee Delete By ID

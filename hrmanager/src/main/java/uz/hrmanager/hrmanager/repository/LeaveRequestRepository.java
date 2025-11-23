@@ -10,13 +10,13 @@ import java.util.Optional;
 @Repository
 public interface LeaveRequestRepository extends CrudRepository<LeaveRequestEntity, Integer> {
 
-    // 1. Xodim ID si bo'yicha barcha arizalarni topish (Balansni hisoblashda yordam beradi)
+    // Xodim ID si bo'yicha barcha arizalarni topish
     List<LeaveRequestEntity> findAllByEmployeeId(Integer employeeId);
 
-    // 2. Manager ID si bo'yicha JARAYONDA (PENDING) turgan arizalarni topish (Tasdiqlash uchun)
+    // Manager ID si bo'yicha JARAYONDA  turgan arizalarni topish (Tasdiqlash uchun)
     // JARAYONDA = LeaveStatus.JARAYONDA
     List<LeaveRequestEntity> findAllByManagerIdAndStatus(Integer managerId, LeaveStatus status);
 
-    // 3. Xodim ID si va Status bo'yicha arizalarni topish
+    // Xodim ID si va Status bo'yicha arizalarni topish
     List<LeaveRequestEntity> findAllByEmployeeIdAndStatus(Integer employeeId, LeaveStatus status);
 }

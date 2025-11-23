@@ -1,5 +1,6 @@
 package uz.hrmanager.hrmanager.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -49,8 +50,8 @@ public class AttendanceController {
         return ResponseEntity.ok("Xodim ID-" + employeeId + " ishdan muvaffaqiyatli ketdi.");
     }
 
-    // HISOBOT OLISH: Kechikishlar va Kelmaganlar ro'yxatini olish
     @GetMapping("/report/lateness-absence")
+    @Operation(description = "HISOBOT OLISH:KECHIKKANLAR VA KELMAGANLAR RO'YXATINI QAYTARISH")
     public ResponseEntity<List<AttendanceReportDTO>> getLatenessAndAbsenceReport(
             @RequestParam("startdate") LocalDate startDate,
             @RequestParam("enddate") LocalDate endDate) {
@@ -59,8 +60,8 @@ public class AttendanceController {
         return ResponseEntity.ok(report);
     }
 
-    // ikkita sana oraligini hisobotini olish
     @GetMapping("/report/between-date")
+    @Operation(description = "HISOBOT OLISH:IKKITA SANA ORALIG'IDA ISHGA KELGAN XODIMLARNI RO'YXATINI QAYTARISH")
     public ResponseEntity<List<AttendanceReportDTO>> getWorkDateBetweenReport(
             @RequestParam("startdate") LocalDate startDate,
             @RequestParam("enddate") LocalDate endDate
