@@ -27,4 +27,5 @@ public class LeaveRequestResponseDTO {
     private LocalDate endDate;
     private Integer totalDays;
     private LeaveStatus status;
+    private String managerComment;
 }

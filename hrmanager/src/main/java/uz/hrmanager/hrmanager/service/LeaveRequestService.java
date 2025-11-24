@@ -117,7 +117,6 @@ public class LeaveRequestService {
 
     //  ARIZANI RAD ETISH
     public LeaveRequestResponseDTO reject(Integer requestId, Integer managerId, String comment) {
-        // Tasdiqlovchi Manager va RAXBARlikni tekshirish (oldingi usuldagidek)
         EmployeeEntity manager = employeeRepository.findById(managerId)
                 .orElseThrow(() -> new AppBadException("Tasdiqlovchi xodim topilmadi."));
 
@@ -137,7 +136,6 @@ public class LeaveRequestService {
         request.setManagerComment(comment); // Rad etish sababini saqlash
 
         LeaveRequestEntity saved = leaveRequestRepository.save(request);
-        // Rad etilganda balans o'zgarmaydi.
         return leaveRequestMapper.toResponseDTO(saved);
     }
 

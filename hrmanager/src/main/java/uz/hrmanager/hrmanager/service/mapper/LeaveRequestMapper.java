@@ -17,6 +17,7 @@ public class LeaveRequestMapper {
         dto.setEndDate(entity.getEndDate());
         dto.setTotalDays(entity.getTotalDays());
         dto.setStatus(entity.getStatus());
+        dto.setManagerComment(entity.getManagerComment());
 
         // Employee ma'lumotlari
         if (entity.getEmployee() != null) {
